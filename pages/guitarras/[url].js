@@ -1,10 +1,28 @@
 import Image from "next/image";
 import styles from "@/styles/guitarras.module.css";
 import Layout from "@/components/layout";
+import { useState } from "react";
 
-function Producto({ guitarra }) {
+function Producto({ guitarra, agregarCarrito }) {
+  const [cantidad, setCantidad ] = useState(0);
   const { nombre, descripcion, imagen, precio } = guitarra[0].attributes;
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(cantidad < 1) {
+      alert("cantidad no valida");
+      return;
+    }
+    const guitarraSeleccionada = {
+      id: guitarra[0].id,
+      imagen: imagen.data.attributes.formats.medium.url,
+      nombre,
+      precio,
+      cantidad
+    }
+
+    agregarCarrito(guitarraSeleccionada);
+  }
   return (
     <Layout title={`Guitarra ${nombre}`}>
       <div className={styles.guitarra}>
@@ -18,6 +36,20 @@ function Producto({ guitarra }) {
           <h3>{nombre}</h3>
           <p className={styles.descripcion}>{descripcion}</p>
           <p className={styles.precio}>${precio}</p>
+
+          <form className={styles.formulario} onSubmit={handleSubmit}>
+            <label htmlFor="cantidad">Cantidad</label>
+            <select id="cantidad" onChange={(e) => setCantidad(+e.target.value)}>
+              <option value="0">-- Seleccione --</option>              
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+            <input type="submit" value={'Agregar al carrito'}/>
+          </form>
         </div>
       </div>
     </Layout>

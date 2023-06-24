@@ -41,6 +41,12 @@ function Header() {
           >
             Tienda
           </Link>
+          <Link
+            href="/carrito"
+            className={router.pathname === '/carrito' ? styles.active : ''}
+          >
+            <Image src={`/img/carrito.png`} alt="carrito de compras" width={100} height={50} />
+          </Link>
         </nav>
       </div>
     </header>
